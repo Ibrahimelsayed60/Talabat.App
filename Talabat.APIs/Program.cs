@@ -34,9 +34,20 @@ namespace Talabat.APIs
             var Services = Scope.ServiceProvider;
             // Services Itself
 
-            var DbContext = Services.GetRequiredService<StoreContext>();
-            //Ask CLR For Creating Object from DbContext Explicitly
-            await DbContext.Database.MigrateAsync(); //Update-Database
+            var LoggerFactory = Services.GetRequiredService<ILoggerFactory>();
+            try
+            {
+
+                var DbContext = Services.GetRequiredService<StoreContext>();
+                //Ask CLR For Creating Object from DbContext Explicitly
+                await DbContext.Database.MigrateAsync(); //Update-Database
+            }
+            catch (Exception ex)
+            {
+
+                var Logger = LoggerFactory.CreateLogger<Program>();
+                Logger.LogError(ex, "An error Occured during Appling The Migration");
+            }
 
             //Scope.Dispose();
 
