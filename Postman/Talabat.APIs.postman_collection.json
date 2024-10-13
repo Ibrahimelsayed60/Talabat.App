@@ -1,0 +1,23 @@
+{
+	"info": {
+		"_postman_id": "6ec5ffad-f9dd-4f65-9c23-770a3355b46f",
+		"name": "Talabat.APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18818837"
+	},
+	"item": [
+		{
+			"name": "Session 01",
+			"item": [
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
