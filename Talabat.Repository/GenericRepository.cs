@@ -21,7 +21,11 @@ namespace Talabat.Repository
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbContext.Set<T>().ToListAsync();
+            if (typeof(T) == typeof(Product))
+                return (IEnumerable<T>) await _dbContext.Products.Include(P => P.ProductBrand).Include(P => P.ProductType).ToListAsync();
+            else
+                return await _dbContext.Set<T>().ToListAsync();
+
         }
 
         public async Task<T> GetByIdAsync(int id)
