@@ -26,6 +26,8 @@ namespace Talabat.Repository.Data.Configurations
             builder.Property(p => p.Description).IsRequired();
 
             builder.Property(p => p.PictureUrl).IsRequired();
+
+            builder.Property(p => p.Price).HasColumnType("decimal(18,2)");
         }
     }
 }
