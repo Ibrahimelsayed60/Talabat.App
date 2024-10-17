@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Talabat.APIs.DTOs;
 using Talabat.Core.Entities;
 using Talabat.Core.Repositories;
 using Talabat.Core.Specifications;
@@ -10,11 +12,13 @@ namespace Talabat.APIs.Controllers
     public class ProductsController : APIBaseController
     {
         private readonly IGenericRepository<Product> _productRepo;
+		private readonly IMapper _mapper;
 
-        public ProductsController(IGenericRepository<Product> ProductRepo)
+		public ProductsController(IGenericRepository<Product> ProductRepo, IMapper mapper)
         {
             _productRepo = ProductRepo;
-        }
+			_mapper = mapper;
+		}
 
         // Get All Products
         [HttpGet] // BaseUrl/api/Products   --> Get
@@ -24,10 +28,12 @@ namespace Talabat.APIs.Controllers
 
             var Products = await _productRepo.GetAllWithSpecAsync(Spec);
 
+            var MappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductToReturnDto>>(Products);
+
             //OkObjectResult result = new OkObjectResult(Products);
             //return result;
 
-            return Ok(Products);
+            return Ok(MappedProducts);
 
         }
 
@@ -39,7 +45,9 @@ namespace Talabat.APIs.Controllers
 
             var product = await _productRepo.GetByIdWithSpecAsync(Spec);
 
-            return Ok(product);
+            var MappedProduct = _mapper.Map<Product, ProductToReturnDto>(product);
+
+            return Ok(MappedProduct);
         }
 
     }
