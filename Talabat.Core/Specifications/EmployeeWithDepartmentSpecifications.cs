@@ -15,5 +15,10 @@ namespace Talabat.Core.Specifications
             Includes.Add(E => E.Department);
         }
 
+        public EmployeeWithDepartmentSpecifications(int id):base(E => E.Id == id)
+        {
+			Includes.Add(E => E.Department);
+		}
+
     }
 }

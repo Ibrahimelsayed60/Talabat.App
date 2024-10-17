@@ -25,5 +25,15 @@ namespace Talabat.APIs.Controllers
             return Ok(emplyees);
 
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Employee>> GetEmployeeById(int id)
+        {
+            var Spec = new EmployeeWithDepartmentSpecifications(id);
+            var Employee = await _employeeRepo.GetByIdWithSpecAsync(Spec);
+            return Ok(Employee);
+        }
+
+
     }
 }
