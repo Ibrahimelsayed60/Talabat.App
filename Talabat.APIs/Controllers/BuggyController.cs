@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Talabat.APIs.Errors;
 using Talabat.Repository.Data;
 
 namespace Talabat.APIs.Controllers
@@ -21,7 +22,7 @@ namespace Talabat.APIs.Controllers
         {
             var Product = _dbContext.Products.Find(100);
 
-            if (Product is null) return NotFound();
+            if (Product is null) return NotFound(new ApiResponse(404));
 
             return Ok(Product);
 
