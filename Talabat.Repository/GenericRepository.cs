@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Entities;
 using Talabat.Core.Repositories;
+using Talabat.Core.Specifications;
 using Talabat.Repository.Data;
 
 namespace Talabat.Repository
@@ -19,18 +20,41 @@ namespace Talabat.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
-        {
-            if (typeof(T) == typeof(Product))
-                return (IEnumerable<T>) await _dbContext.Products.Include(P => P.ProductBrand).Include(P => P.ProductType).ToListAsync();
-            else
-                return await _dbContext.Set<T>().ToListAsync();
+		#region Without Specification
+		public async Task<IEnumerable<T>> GetAllAsync()
+		{
+			if (typeof(T) == typeof(Product))
+				return (IEnumerable<T>)await _dbContext.Products.Include(P => P.ProductBrand).Include(P => P.ProductType).ToListAsync();
+			else
+				return await _dbContext.Set<T>().ToListAsync();
 
-        }
+		}
 
-        public async Task<T> GetByIdAsync(int id)
-        {
-            return await _dbContext.Set<T>().FindAsync(id);
-        }
-    }
+		public async Task<T> GetByIdAsync(int id)
+		{
+			return await _dbContext.Set<T>().FindAsync(id);
+
+			//return await _dbContext.Products.Where(P => P.Id == id)
+		} 
+		#endregion
+
+
+
+		public async Task<IEnumerable<T>> GetAllWithSpecAsync(ISpecifications<T> Spec)
+		{
+			return await ApplySpecification(Spec).ToListAsync();
+		}
+
+		
+
+		public async Task<T> GetByIdWithSpecAsync(ISpecifications<T> Spec)
+		{
+			return await ApplySpecification(Spec).FirstOrDefaultAsync();
+		}
+
+		private IQueryable<T> ApplySpecification(ISpecifications<T> Spec)
+		{
+			return SpecificationEvaluator<T>.GetQuery(_dbContext.Set<T>(), Spec);
+		}
+	}
 }
