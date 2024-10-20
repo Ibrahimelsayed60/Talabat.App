@@ -23,7 +23,7 @@ namespace Talabat.APIs.Controllers
 
         // Get All Products
         [HttpGet] // BaseUrl/api/Products   --> Get
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts()
         {
             var Spec = new ProductWithBrandAndTypeSpecifications();
 
@@ -40,7 +40,9 @@ namespace Talabat.APIs.Controllers
 
         // Get Product By Id
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        [ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<ProductToReturnDto>> GetProductById(int id)
         {
             var Spec = new ProductWithBrandAndTypeSpecifications(id);
 
