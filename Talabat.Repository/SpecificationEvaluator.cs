@@ -33,6 +33,11 @@ namespace Talabat.Repository
 				Query = Query.OrderByDescending(Spec.orderByDescending);
 			}
 
+			if(Spec.IsPaginationEnabled )
+			{
+				Query = Query.Skip(Spec.Skip).Take(Spec.Take);
+			}
+
 			// P => P.ProductBrand, P => P.ProductType
 			Query = Spec.Includes.Aggregate(Query, (CurrentQuery, IncludeExpression) => CurrentQuery.Include(IncludeExpression));
 

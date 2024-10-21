@@ -24,5 +24,13 @@ namespace Talabat.Core.Specifications
         // Prop for orderByDesc [OrderByDesc(P => P.Name)]
         public Expression<Func<T, object>> orderByDescending { get; set; }
 
+        // TAKE(2)
+        public int Take { get; set; }
+
+        // SKIP(2)
+        public int Skip { get; set; }
+
+        public bool IsPaginationEnabled { get; set; }
+
     }
 }
