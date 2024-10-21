@@ -12,10 +12,12 @@ namespace Talabat.Core.Specifications
 	{
 		public Expression<Func<T, bool>> Criteria { get; set; }
 		public List<Expression<Func<T, object>>> Includes { get ; set ; } = new List<Expression<Func<T, object>>>();
+        public Expression<Func<T, object>> orderBy { get; set; }
+        public Expression<Func<T, object>> orderByDescending { get; set; }
 
 
-		// Get All
-		public BaseSpecifications()
+        // Get All
+        public BaseSpecifications()
         {
             //Includes = new List<Expression<Func<T, object>>> ();
         }
@@ -26,6 +28,16 @@ namespace Talabat.Core.Specifications
             Criteria = criteriaExpression;
             //Includes = new List<Expression<Func<T, object>>>();
 
+        }
+
+        public void AddOrderBy(Expression<Func<T, object>> orderByExpression)
+        {
+            orderBy = orderByExpression;
+        }
+
+        public void AddOrderByDescending(Expression<Func<T, object>> orderByDescExpression)
+        {
+            orderByDescending = orderByDescExpression;
         }
 
     }

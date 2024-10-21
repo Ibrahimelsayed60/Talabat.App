@@ -18,6 +18,11 @@ namespace Talabat.Core.Specifications
         // Sign of Property For List of Includes [Include(P => P.ProductBrand).Include(P => P.ProductType)]
         public List<Expression<Func<T, object>>> Includes { get; set; }
 
+        // Prop for orderBy [OrderBy(P => P.Name)]
+        public Expression<Func<T,object>> orderBy { get; set; }
+
+        // Prop for orderByDesc [OrderByDesc(P => P.Name)]
+        public Expression<Func<T, object>> orderByDescending { get; set; }
 
     }
 }
